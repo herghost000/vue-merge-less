@@ -8,7 +8,7 @@ const getVueModuleStyle = require('./getVueModuleStyle');
 const fs = require('fs');
 
 // read less file list
-const loopAllLess = async (parents) => {
+const loopAllLess = async (parents, identIndex) => {
   const promiseList = [];
   let importFileList = [];
   const vueDir = path.join(parents, "/**/**.vue");

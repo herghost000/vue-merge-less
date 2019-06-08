@@ -42,7 +42,7 @@ class VueMergeLessPlugin {
       } else if (!fs.existsSync(path.dirname(outFile))) {
         fs.mkdirSync(path.dirname(outFile))
       }
-      loopAllLess(options.stylesDir, options.excludeIdent).then(
+      loopAllLess(options.stylesDir, options.identIndex).then(
         content => {
           fs.writeFileSync(
             outFile,

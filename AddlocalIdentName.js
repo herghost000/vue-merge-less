@@ -54,7 +54,11 @@ const isModifier = node =>
   node.type === 'pseudo-class' &&
   (node.name === 'local' || node.name === 'global')
 
-function localizeNode(node, { mode, inside, getAlias }) {
+function localizeNode(node, {
+  mode,
+  inside,
+  getAlias
+}) {
   const newNodes = node.nodes.reduce((acc, n, index, nodes) => {
     switch (n.type) {
       case 'spacing':
@@ -126,20 +130,20 @@ function localizeNode(node, { mode, inside, getAlias }) {
           ]
         }
 
-      case 'id':
-      case 'class':
-        if (mode === 'local') {
-          return [
-            ...acc,
-            Object.assign({}, n, {
-              name: getAlias(n.name)
-            })
-          ]
-        }
-        return [...acc, n]
+        case 'id':
+        case 'class':
+          if (mode === 'local') {
+            return [
+              ...acc,
+              Object.assign({}, n, {
+                name: getAlias(n.name)
+              })
+            ]
+          }
+          return [...acc, n]
 
-      default:
-        return [...acc, n]
+        default:
+          return [...acc, n]
     }
   }, [])
 
@@ -274,12 +278,13 @@ const LocalIdentNameplugin = postcss.plugin('LocalIdentNameplugin', options => {
 const AddlocalIdentName = (lessPath, lessText, identIndex) => {
   lessPath = lessPath
   return postcss([
-    LocalIdentNameplugin({
-      generateScopedName: className => {
-        return getLocalIdentName(lessPath) + className + `_${identIndex}`
-      }
-    })
-  ])
+      LocalIdentNameplugin({
+        generateScopedName: className => {
+          const suffix = identIndex === undefined ? '' : `_${identIndex}`;
+          return getLocalIdentName(lessPath) + className + suffix;
+        }
+      })
+    ])
     .process(lessText, {
       from: lessPath,
       syntax
