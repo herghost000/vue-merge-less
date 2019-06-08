@@ -25,9 +25,9 @@ const loopAllLess = async (parents, identIndex) => {
   const vueContentArray = await Promise.all(vuePromise);
   vueContentArray.forEach((item, index) => {
     if (!item) return void 0;
-    let [result, index] = item;
+    let [result, _identIndex] = item;
     if (!identIndex) {
-      index = undefined;
+      _identIndex = undefined;
     }
     const {
       css,
@@ -37,7 +37,7 @@ const loopAllLess = async (parents, identIndex) => {
       from
     } = opts;
     promiseList.push(
-      AddlocalIdentName(from, css, index).then(
+      AddlocalIdentName(from, css, _identIndex).then(
         result => {
           importFileList = importFileList.concat(result.messages);
           return result.content.toString();
